@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>2fb3c6fd-6143-4dc3-a4cd-91d6cc7bed29</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Team.SurveyApp.Dapper\Team.SurveyApp.Dapper.csproj" />
+    <ProjectReference Include="..\Team.SurveyApp\Team.SurveyApp.csproj" />
+  </ItemGroup>
+
+
+</Project>
