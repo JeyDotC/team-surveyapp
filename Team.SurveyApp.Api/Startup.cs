@@ -35,7 +35,8 @@ namespace Team.SurveyApp.Api
             _connectionString = Configuration["ConnectionString"];
             services.AddControllers();
             services.AddSingleton<IDbConnection>(ctx => new SqlConnection(_connectionString))
-                .AddTransient<ISurveysRepository>(ctx => new SurveysRepositoryDapper(ctx.GetRequiredService<IDbConnection>()));
+                .AddTransient<ISurveysRepository>(ctx => new SurveysRepositoryDapper(ctx.GetRequiredService<IDbConnection>()))
+                .AddTransient<IQuestionsRepository>(ctx => new QuestionsRepositoryDapper(ctx.GetRequiredService<IDbConnection>()));
             services.AddSwaggerGen(c => c.SwaggerDoc("v1", new OpenApiInfo { Title = "Team.SurveyApp API Docs", Version="v1" }));
         }
 
