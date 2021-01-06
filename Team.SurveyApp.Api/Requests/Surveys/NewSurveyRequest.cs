@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Team.SurveyApp.Entities;
 
-namespace Team.SurveyApp.Api.Requests
+namespace Team.SurveyApp.Api.Requests.Surveys
 {
     public struct NewSurveyRequest
     {

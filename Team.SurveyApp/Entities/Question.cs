@@ -5,7 +5,7 @@ using Team.SurveyApp.Abstractions.Entity;
 
 namespace Team.SurveyApp.Entities
 {
-    public class Question : IHaveId
+    public class Question : IHaveId, IHaveUpdatedTimeStamp
     {
         public int Id { get; set; }
 

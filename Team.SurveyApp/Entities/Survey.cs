@@ -7,7 +7,7 @@ using Team.SurveyApp.Exceptions;
 
 namespace Team.SurveyApp.Entities
 {
-    public class Survey : IHaveId
+    public class Survey : IHaveId, IHaveUpdatedTimeStamp
     {
         private readonly List<Question> _questions = new List<Question>();
 
@@ -23,6 +23,7 @@ namespace Team.SurveyApp.Entities
 
         public void LoadQuestions(IEnumerable<Question> questions)
         {
+            _questions.Clear();
             foreach (var question in questions)
             {
                 AddQuestion(question);
@@ -55,6 +56,12 @@ namespace Team.SurveyApp.Entities
 
             _questions.Remove(question);
             _questions.Insert(to, question);
+        }
+
+        public void RemoveQuestion(int questionId)
+        {
+            var question = _questions.First(q => q.Id == questionId);
+            _questions.Remove(question);
         }
     }
 }

@@ -5,17 +5,12 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using Team.SurveyApp.Abstractions.Entity;
+using Team.SurveyApp.Exceptions;
 
 namespace Team.SurveyApp.Dapper.Extensions
 {
     internal static class ConnectionExtensions
     {
-        private static IEnumerable<Type> _acceptedNonPrimitiveTypes = new Type[]
-        {
-            typeof(DateTime),
-            typeof(string)
-        };
-
         public static TEntity Insert<TEntity>(this IDbConnection connection, TEntity entity)
         {
             var entityType = typeof(TEntity);
@@ -44,11 +39,44 @@ namespace Team.SurveyApp.Dapper.Extensions
             return entity;
         }
 
+        public static void Update<TEntity>(this IDbConnection connection, TEntity entity)
+            where TEntity : IHaveId
+        {
+            var entityType = typeof(TEntity);
+
+            var props = entityType.StorableProperties()
+                .Where(p => p.Name != "Id")
+                .Select(p => p.Name);
+            
+            if(entity is IHaveUpdatedTimeStamp)
+            {
+                (entity as IHaveUpdatedTimeStamp).Updated = DateTime.Now;
+            }
+
+            var updatePart = $"UPDATE {entityType.Name} SET";
+            var fieldsPart = string.Join(", ", props.Select(p => $"{p} = @{p}"));
+            var wherePart = $"WHERE Id = @Id";
+
+            var sql = @$"{updatePart}
+{fieldsPart}
+{wherePart}";
+
+            connection.Execute(sql, entity);
+        }
+
         public static TEntity Get<TEntity>(this IDbConnection connection, int id)
+            where TEntity : IHaveId
         {
             var tableName = typeof(TEntity).Name;
 
-            return connection.QuerySingle<TEntity>($"SELECT * FROM {tableName} WHERE Id = @Id", new { Id = id });
+            try
+            {
+                return connection.QuerySingle<TEntity>($"SELECT * FROM {tableName} WHERE Id = @Id", new { Id = id });
+            }
+            catch (InvalidOperationException)
+            {
+                throw new EntryNotFoundException($"{tableName} with Id {id} not found.");
+            }
         }
     }
 }

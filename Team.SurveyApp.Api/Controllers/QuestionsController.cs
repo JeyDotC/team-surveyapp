@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Team.SurveyApp.Api.Requests;
+using Team.SurveyApp.Api.Requests.Questions;
 using Team.SurveyApp.Entities;
 using Team.SurveyApp.Repositories;
 
@@ -28,6 +29,17 @@ namespace Team.SurveyApp.Api.Controllers
         public IEnumerable<Question> Get() => _questionsRepository.List();
 
         [HttpPost]
-        public Question Post([FromBody]NewQuestionRequest survey) => _questionsRepository.Add(survey.ToEntity());
+        public Question Post([FromBody]NewQuestionRequest question) => _questionsRepository.Add(question.ToEntity());
+
+        [HttpPut("{id}")]
+        public Question Put(int id, [FromBody]UpdateQuestionRequest question)
+        {
+            var existingQuestion = _questionsRepository.Get(id);
+            existingQuestion.Text = question.Text ?? existingQuestion.Text;
+
+            _questionsRepository.Update(existingQuestion);
+
+            return existingQuestion;
+        }
     }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Team.SurveyApp.Api.Requests;
+using Team.SurveyApp.Api.Requests.Surveys;
 using Team.SurveyApp.Entities;
 using Team.SurveyApp.Repositories;
 
@@ -54,6 +54,18 @@ namespace Team.SurveyApp.Api.Controllers
             var existingSurvey = _surveysRepository.Get(id);
 
             existingSurvey.AddQuestion(existingQuestion);
+
+            _surveysRepository.Update(existingSurvey);
+
+            return existingSurvey;
+        }
+
+        [HttpDelete("{id}/Questions/{questionId}")]
+        public Survey PostQuestion(int id, int questionId)
+        {
+            var existingSurvey = _surveysRepository.Get(id);
+
+            existingSurvey.RemoveQuestion(questionId);
 
             _surveysRepository.Update(existingSurvey);
 

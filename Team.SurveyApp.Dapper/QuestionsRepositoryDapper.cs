@@ -21,9 +21,6 @@ namespace Team.SurveyApp.Dapper
 
         public IEnumerable<Question> List() => _connection.Query<Question>("SELECT * FROM Question");
 
-        public void Update(Question entity)
-        {
-            throw new NotImplementedException();
-        }
+        public void Update(Question entity) => _connection.Update(entity);
     }
 }
