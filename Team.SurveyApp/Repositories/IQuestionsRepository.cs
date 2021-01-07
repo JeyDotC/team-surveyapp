@@ -10,7 +10,8 @@ namespace Team.SurveyApp.Repositories
         ICreate<Question>,
         IRead<Question>,
         IUpdate<Question>,
-        IGet<Question>
+        IGet<Question>,
+        IDelete<Question>
     {
     }
 }

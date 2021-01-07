@@ -41,5 +41,13 @@ namespace Team.SurveyApp.Api.Controllers
 
             return existingQuestion;
         }
+
+        [HttpDelete("{id}")]
+        public void Delete(int id)
+        {
+            var existingQuestion = _questionsRepository.Get(id);
+
+            _questionsRepository.Delete(existingQuestion);
+        }
     }
 }

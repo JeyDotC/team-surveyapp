@@ -28,6 +28,8 @@ namespace Team.SurveyApp.Dapper
 
         public Survey Add(Survey newSurvey) => _connection.Insert(newSurvey);
 
+        public void Delete(Survey entity) => _connection.Execute("DELETE FROM Survey WHERE Id = @Id", entity);
+
         public Survey Get(int id)
         {
             var survey = _connection.Get<Survey>(id);

@@ -21,7 +21,7 @@ namespace Team.SurveyApp.Api.Controllers
         public SurveysController(ILogger<SurveysController> logger, ISurveysRepository surveysRepository, IQuestionsRepository questionsRepository)
         {
             _logger = logger;
-            
+
             _surveysRepository = surveysRepository;
             _questionsRepository = questionsRepository;
         }
@@ -36,7 +36,7 @@ namespace Team.SurveyApp.Api.Controllers
         public Survey Post([FromBody]NewSurveyRequest survey) => _surveysRepository.Add(survey.ToEntity());
 
         [HttpPut("{id}")]
-        public Survey Put(int id, [FromBody]UpdateSurveyRequest survey) 
+        public Survey Put(int id, [FromBody]UpdateSurveyRequest survey)
         {
             var existingSurvey = _surveysRepository.Get(id);
             existingSurvey.Name = survey.Name ?? existingSurvey.Name;
@@ -45,6 +45,14 @@ namespace Team.SurveyApp.Api.Controllers
             _surveysRepository.Update(existingSurvey);
 
             return existingSurvey;
+        }
+
+        [HttpDelete("{id}")]
+        public void Delete(int id)
+        {
+            var existingSurvey = _surveysRepository.Get(id);
+
+            _surveysRepository.Delete(existingSurvey);
         }
 
         [HttpPost("{id}/Questions")]

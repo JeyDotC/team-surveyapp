@@ -17,6 +17,8 @@ namespace Team.SurveyApp.Dapper
 
         public Question Add(Question entity) => _connection.Insert(entity);
 
+        public void Delete(Question entity) => _connection.Execute("DELETE FROM Question WHERE Id = @Id", entity);
+
         public Question Get(int id) => _connection.Get<Question>(id);
 
         public IEnumerable<Question> List() => _connection.Query<Question>("SELECT * FROM Question");
