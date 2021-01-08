@@ -14,7 +14,7 @@ using Microsoft.Extensions.Logging;
 using Team.SurveyApp.Dapper;
 using Team.SurveyApp.Repositories;
 using Microsoft.OpenApi.Models;
-
+using Team.SurveyApp.Services;
 
 namespace Team.SurveyApp.Api
 {
@@ -34,9 +34,14 @@ namespace Team.SurveyApp.Api
         {
             _connectionString = Configuration["ConnectionString"];
             services.AddControllers();
+            // Repositories
             services.AddSingleton<IDbConnection>(ctx => new SqlConnection(_connectionString))
-                .AddTransient<ISurveysRepository>(ctx => new SurveysRepositoryDapper(ctx.GetRequiredService<IDbConnection>()))
-                .AddTransient<IQuestionsRepository>(ctx => new QuestionsRepositoryDapper(ctx.GetRequiredService<IDbConnection>()));
+                .AddTransient<ISurveysRepository, SurveysRepositoryDapper>()
+                .AddTransient<IQuestionsRepository, QuestionsRepositoryDapper>()
+                .AddTransient<IRespondentsRepository, RespondentsRepositoryDapper>();
+            // Hashing service
+            services.AddTransient<IHashingService, DefaultHashingService>();
+
             services.AddSwaggerGen(c => c.SwaggerDoc("v1", new OpenApiInfo { Title = "Team.SurveyApp API Docs", Version="v1" }));
         }
 

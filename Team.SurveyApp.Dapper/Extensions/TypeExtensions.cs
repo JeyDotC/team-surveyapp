@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using Team.SurveyApp.Values;
 
 namespace Team.SurveyApp.Dapper.Extensions
 {
@@ -11,7 +12,8 @@ namespace Team.SurveyApp.Dapper.Extensions
         private static IEnumerable<Type> _acceptedNonPrimitiveTypes = new Type[]
         {
             typeof(DateTime),
-            typeof(string)
+            typeof(string),
+            typeof(Email)
         };
 
         public static IEnumerable<PropertyInfo> StorableProperties(this Type type) => type.GetProperties()

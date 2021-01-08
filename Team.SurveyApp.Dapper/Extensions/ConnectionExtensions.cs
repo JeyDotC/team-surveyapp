@@ -6,11 +6,24 @@ using System.Linq;
 using System.Text;
 using Team.SurveyApp.Abstractions.Entity;
 using Team.SurveyApp.Exceptions;
+using Team.SurveyApp.Values;
 
 namespace Team.SurveyApp.Dapper.Extensions
 {
+    internal class EmailTypeHandler : SqlMapper.TypeHandler<Email>
+    {
+        public override Email Parse(object value) => (string)value;
+
+        public override void SetValue(IDbDataParameter parameter, Email value) => parameter.Value = value.ToString();
+    }
+
     internal static class ConnectionExtensions
     {
+        static ConnectionExtensions()
+        {
+            SqlMapper.AddTypeHandler(new EmailTypeHandler());
+        }
+
         public static TEntity Insert<TEntity>(this IDbConnection connection, TEntity entity)
         {
             var entityType = typeof(TEntity);
@@ -39,13 +52,14 @@ namespace Team.SurveyApp.Dapper.Extensions
             return entity;
         }
 
-        public static void Update<TEntity>(this IDbConnection connection, TEntity entity)
+        public static void Update<TEntity>(this IDbConnection connection, TEntity entity, IEnumerable<string> except = null)
             where TEntity : IHaveId
         {
             var entityType = typeof(TEntity);
+            var ignore = except ?? Enumerable.Empty<string>();
 
             var props = entityType.StorableProperties()
-                .Where(p => p.Name != "Id")
+                .Where(p => p.Name != "Id" && !except.Contains(p.Name))
                 .Select(p => p.Name);
             
             if(entity is IHaveUpdatedTimeStamp)

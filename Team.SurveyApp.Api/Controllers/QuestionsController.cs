@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Team.SurveyApp.Api.Filters;
 using Team.SurveyApp.Api.Requests;
 using Team.SurveyApp.Api.Requests.Questions;
 using Team.SurveyApp.Entities;
@@ -13,6 +14,7 @@ namespace Team.SurveyApp.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [ExceptionSerializationFilter]
     public class QuestionsController : ControllerBase
     {
         private readonly ILogger<QuestionsController> _logger;
