@@ -5,11 +5,17 @@ VisualStudioVersion = 16.0.29709.97
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Team.SurveyApp", "Team.SurveyApp\Team.SurveyApp.csproj", "{BC77E877-C1DF-47E9-83E6-6CED8314331D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Team.SurveyApp.Dapper", "Team.SurveyApp.Dapper\Team.SurveyApp.Dapper.csproj", "{A855BD87-BE73-4FA0-85C3-27EF6085941B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Team.SurveyApp.Dapper", "Team.SurveyApp.Dapper\Team.SurveyApp.Dapper.csproj", "{A855BD87-BE73-4FA0-85C3-27EF6085941B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Team.SurveyApp.Tests", "Team.SurveyApp.Tests\Team.SurveyApp.Tests.csproj", "{4BFE50A8-0846-4D11-8959-31719B191EE8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Team.SurveyApp.Tests", "Team.SurveyApp.Tests\Team.SurveyApp.Tests.csproj", "{4BFE50A8-0846-4D11-8959-31719B191EE8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Team.SurveyApp.Api", "Team.SurveyApp.Api\Team.SurveyApp.Api.csproj", "{67A29E07-5E5C-4013-8DF0-953C2DB5B590}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Team.SurveyApp.Api", "Team.SurveyApp.Api\Team.SurveyApp.Api.csproj", "{67A29E07-5E5C-4013-8DF0-953C2DB5B590}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{445847D8-2F38-4F39-9708-CF9B29182332}"
+	ProjectSection(SolutionItems) = preProject
+		DatabaseSchema.sql = DatabaseSchema.sql
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

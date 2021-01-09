@@ -66,7 +66,7 @@ namespace Team.SurveyApp.Api
 
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "eam.SurveyApp API Docs v1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Team.SurveyApp API Docs v1");
             });
         }
     }

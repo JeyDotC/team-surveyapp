@@ -24,7 +24,7 @@ namespace Team.SurveyApp.Dapper.Extensions
             SqlMapper.AddTypeHandler(new EmailTypeHandler());
         }
 
-        public static TEntity Insert<TEntity>(this IDbConnection connection, TEntity entity)
+        public static TEntity Insert<TEntity>(this IDbConnection connection, TEntity entity, IDbTransaction transaction = null)
         {
             var entityType = typeof(TEntity);
             var entityHasId = entity is IHaveId;
@@ -33,8 +33,14 @@ namespace Team.SurveyApp.Dapper.Extensions
                 .Where(p => p.Name != "Id")
                 .Select(p => p.Name);
 
-            var fields = string.Join(", ", props.Select(p => $"[{p}]"));
-            var parameters = string.Join(", ", props.Select(p => $"@{p}"));
+            var foreignKeyProps = entityType.GetProperties()
+                .Where(p => typeof(IHaveId).IsAssignableFrom(p.PropertyType));
+
+            var foreignKeyFields = foreignKeyProps.Select(p => $"[{p.Name}_Id]");
+            var foreignKeyParameters = foreignKeyProps.Select(p => $"@{p.Name}_Id");
+
+            var fields = string.Join(", ", props.Select(p => $"[{p}]").Concat(foreignKeyFields));
+            var parameters = string.Join(", ", props.Select(p => $"@{p}").Concat(foreignKeyParameters));
 
             var outputId = entityHasId ? "OUTPUT INSERTED.Id" : string.Empty;
 
@@ -42,11 +48,11 @@ namespace Team.SurveyApp.Dapper.Extensions
 
             if (entityHasId)
             {
-                (entity as IHaveId).Id = connection.QuerySingle<int>(query, entity);
+                (entity as IHaveId).Id = connection.QuerySingle<int>(query, entity, transaction);
             }
             else
             {
-                connection.Execute(query, entity);
+                connection.Execute(query, entity, transaction);
             }
 
             return entity;

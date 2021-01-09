@@ -18,6 +18,5 @@ namespace Team.SurveyApp.Dapper.Extensions
 
         public static IEnumerable<PropertyInfo> StorableProperties(this Type type) => type.GetProperties()
                 .Where(p => p.PropertyType.IsPrimitive || p.PropertyType.IsEnum || _acceptedNonPrimitiveTypes.Any(a => a == p.PropertyType));
-
     }
 }
